@@ -39,8 +39,19 @@ export class search extends LitElement {
           
           <!--Søkefelt -->
           <input id="Searchfield">
+          <button @click="${this.addToQue}" class="btn btn-primary">add song to queue</button>
         </div>
      `;
+    }
+
+
+    addToQue(e) {
+        fetch(`${window.MyAppGlobals.serverURL}addToQue`).then(res => res.json())
+        .then(res => { 
+            this.result =  Object.values(res);  
+            console.log("resultatet var: " + this.result[0])
+            
+        })
     }
 }
 customElements.define('search-sang', search);

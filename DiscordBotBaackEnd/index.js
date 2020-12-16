@@ -12,6 +12,16 @@ const ytdl = require('ytdl-core');
 global.servers = {};
 global.ytdl = ytdl;
 global.server;
+global.serverID = "788612048740941876"
+global.spamID = "780561905877385226"
+
+if(!global.servers[global.serverID]) {  //5
+    global.servers[global.serverID] = {
+        queue: []
+    }
+    console.log("if //5")
+} 
+global.server = global.servers[global.serverID];
 
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 
@@ -25,21 +35,8 @@ for (const file of commandFiles) {
 }
 
 
-
-
-
-
-// client.once('ready', () => {
-//     console.log('Ready!');
-//     var channelID = "778704209230430248";
-//     const channel = client.channels.cache.get("778704209230430248");
-//     channel.join()
-// });
-
-
-
 client.on("ready", () => {
-    const channel = client.channels.cache.get("778704209230430248");
+    const channel = client.channels.cache.get(global.serverID);
     if (!channel) return console.error("The channel does not exist!");
     channel.join().then(connection => {
         // Yay, it worked!
@@ -115,7 +112,7 @@ app.get('/getSongQue', function (req, res) {
 
     
     // res.writeHead(200, { 'Content-Type': 'application/json' });
-
+  
     var que = JSON.stringify( {
         sang1: {
           navn: "Never gonna give you upp", 
@@ -136,15 +133,72 @@ app.get('/getSongQue', function (req, res) {
  
 
 app.get('/playQue', function (req, res) {
-    console.log("/playQue");
+    console.log("-----/playQue------");
 
     var answer = JSON.stringify({
         result: "ok"
         })
 
     //I fremtiden gjør db.query til MySql og lag sjekk på om query er tom. Send play que kommando om que ikke er tom
-    client.channels.cache.get('780561905877385226').send('|play https://www.youtube.com/watch?v=fsbpWD-bAC0'); // put kommano for å spille que her istedenfor linken
+    client.channels.cache.get(global.spamID).send('|play'); // put kommano for å spille que her istedenfor linken
 
+
+
+    res.send(answer);
+})
+
+app.get('/addToQue', function (req, res) {
+    console.log("----/addToQue-------");
+
+    var answer = JSON.stringify({
+        result: "ok"
+        })
+
+    //I fremtiden gjør db.query til MySql og lag sjekk på om query er tom. Send play que kommando om que ikke er tom
+    client.channels.cache.get(global.spamID).send('|add https://www.youtube.com/watch?v=fsbpWD-bAC0'); // put kommano for å spille que her istedenfor linken
+
+
+    res.send(answer);
+})
+
+
+app.get('/skipQue', function (req, res) {
+    console.log("----/skipQue-----");
+    console.log("que før skip: " + global.server.queue)
+    global.server.queue.shift();
+    console.log("que etter skip: " + global.server.queue)
+    var answer = JSON.stringify({
+        result: "ok"
+        })
+
+    //I fremtiden gjør db.query til MySql og lag sjekk på om query er tom. Send play que kommando om que ikke er tom
+    client.channels.cache.get(global.spamID).send('|skip'); // put kommano for å spille que her istedenfor linken
+
+
+    res.send(answer);
+})
+
+
+app.get('/stopQue', function (req, res) {
+    console.log("------/stopQue--------");
+    console.log("que før stop: " + global.server.queue)
+   
+    for(var i = global.server.queue.length -1; i >=0; i--) {
+        global.server.queue.splice(i, 1);
+    }
+    if(global.server.dispatcher) {
+        console.log("dispatcher destroy")
+        global.server.dispatcher.destroy();
+    }
+    
+    // client.dispatcher.end()
+    console.log("que etter stop: " + global.server.queue)
+    var answer = JSON.stringify({
+        result: "ok"
+        })
+
+    //I fremtiden gjør db.query til MySql og lag sjekk på om query er tom. Send play que kommando om que ikke er tom
+    client.channels.cache.get(global.spamID).send('|stop'); // put kommano for å spille que her istedenfor linken
 
 
     res.send(answer);

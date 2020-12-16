@@ -8,7 +8,7 @@ module.exports = {
         }
         global.server = global.servers[message.guild.id];
         global.server.queue.push(args[0]);
-        console.log("global.server.queue" + global.server.queue)
+        console.log("global.server.queue inni add modul " + global.server.queue)
 
         return message.channel.send(`You have added song`)
 	},

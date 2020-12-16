@@ -64,8 +64,8 @@ export class que extends LitElement {
                             
                             <div>
                             <button @click="${this.playQue}" class="btn btn-primary">Play queue</button>
-                            <button @click="${this.playQue}" class="btn btn-primary">Skip queue</button>
-                            <button @click="${this.playQue}" class="btn btn-primary">Stop queue</button>
+                            <button @click="${this.skipQue}" class="btn btn-primary">Skip queue</button>
+                            <button @click="${this.stopQue}" class="btn btn-primary">Stop queue</button>
                                 <div id="stor-tekst">
                                     Queue:
                                 </div>
@@ -80,6 +80,22 @@ export class que extends LitElement {
 
     playQue(e) {
         fetch(`${window.MyAppGlobals.serverURL}playQue`).then(res => res.json())
+        .then(res => { 
+            this.result =  Object.values(res);  
+            console.log("resultatet var: " + this.result[0])
+            
+        })
+    }
+    skipQue(e) {
+        fetch(`${window.MyAppGlobals.serverURL}skipQue`).then(res => res.json())
+        .then(res => { 
+            this.result =  Object.values(res);  
+            console.log("resultatet var: " + this.result[0])
+            
+        })
+    }
+    stopQue(e) {
+        fetch(`${window.MyAppGlobals.serverURL}stopQue`).then(res => res.json())
         .then(res => { 
             this.result =  Object.values(res);  
             console.log("resultatet var: " + this.result[0])
