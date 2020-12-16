@@ -1,0 +1,11 @@
+# npm install:
+
+
+# npm install eslint
+# npm install discord.js
+
+
+
+# Start discord bot with:
+
+node index.js

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GuttaGangBot</title>
+
+    
+            <!-- Isak CSS -->
+        <link rel="stylesheet" href="Style.css">
+
+        	<!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+            
+
+
+    <script>
+        // window.ShadyDOM = {
+        //     force: true
+        // };
+        // if (window.customElements) customElements.forcePolyfill = true;
+
+        
+        // window.process = {
+        // env: {
+        //     NODE_ENV: 'production'
+        //     }
+        // };
+
+        /*
+        * [polymer-root-path]
+        *
+        * Leave this line unchanged if you intend to serve your app from the root
+        * path (e.g., with URLs like `my.domain/` and `my.domain/view1`).
+        *
+        * If you intend to serve your app from a non-root path (e.g., with URLs
+        * like `my.domain/my-app/` and `my.domain/my-app/view1`), edit this line
+        * to indicate the path from which you'll be serving, including leading
+        * and trailing slashes (e.g., `/my-app/`).
+        */
+        window.MyAppGlobals = {
+            rootPath: '/',
+            serverURL: 'http://localhost:8000/'
+        };
+    </script>
+    <script type="module" src="/routes.js"></script>
+  
+
+   
+</head>
+<body>
+<div id="outlet"></div> <!--Ikke rør, tilknyttet rutingen, se routes.js-->
+    
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+</body>
+</html>

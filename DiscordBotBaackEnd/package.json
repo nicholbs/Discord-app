@@ -1,0 +1,22 @@
+{
+  "name": "discordbot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js --watch"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@discordjs/opus": "^0.3.3",
+    "cors": "^2.8.5",
+    "discord.js": "^12.5.0",
+    "eslint": "^7.14.0",
+    "express": "^4.17.1",
+    "ffmpeg-static": "^4.2.7",
+    "opusscript": "0.0.7",
+    "prism-media": "github:hydrabolt/prism-media",
+    "ytdl-core": "^4.0.6"
+  }
+}
