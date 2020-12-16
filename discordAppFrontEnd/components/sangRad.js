@@ -43,7 +43,7 @@ export class sangRad extends LitElement {
         return html`
          
            <div class="row" id="sanger">
-            <p id="blue">${this.sang.navn} 
+            <p id="blue">${this.sang.sang} 
                 <!-- <small class="text-muted">${this.sang.artist}</small> -->
                 <cite title="Source Title" id="black">- ${this.sang.artist}</cite>
             </p>

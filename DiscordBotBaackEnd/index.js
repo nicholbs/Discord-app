@@ -98,9 +98,24 @@ client.login(token);
 // ----------------------------- Discord bot slutt
 
 // -------------------------------------Nettside Back-end start-----------------------
-const express = require('express')
-const app = express()
-const cors = require('cors')
+const express = require('express');
+const app = express();
+const cors = require('cors');
+var MySql = require('mysql');
+
+var DB = MySql.createConnection({
+    host     : 'localhost',
+    user     : 'root',
+    password : '',
+    database : 'discord'
+})
+
+DB.connect(function (err) {
+    if (err) {
+      throw err;
+    }
+    console.log("Connected to Mysql database!");
+  });
 
 app.use(express.json());                //parse JSON bodies (as sent by API clients)
 app.use(cors())
@@ -113,22 +128,30 @@ app.get('/getSongQue', function (req, res) {
     
     // res.writeHead(200, { 'Content-Type': 'application/json' });
   
-    var que = JSON.stringify( {
-        sang1: {
-          navn: "Never gonna give you upp", 
-          artist: "Rick Astley" 
-        },
-        sang2: {
-          navn: "Good Morning", 
-          artist: "Kanye West" 
-        },
-        sang3: {
-          navn: "Perkele", 
-          artist: "keryue" 
-        }
+    // var que = JSON.stringify( {
+    //     sang1: {
+    //       navn: "Never gonna give you upp", 
+    //       artist: "Rick Astley" 
+    //     },
+    //     sang2: {
+    //       navn: "Good Morning", 
+    //       artist: "Kanye West" 
+    //     },
+    //     sang3: {
+    //       navn: "Perkele", 
+    //       artist: "keryue" 
+    //     }
         
+    //   })
+
+    DB.query('SELECT * FROM `sanger`', function (err, result) {
+        if (err) {
+          res.status(400).send('Error in database operation.');
+        } else {
+          res.writeHead(200, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify(result));
+        }
       })
-    res.send(que)
 })
  
 

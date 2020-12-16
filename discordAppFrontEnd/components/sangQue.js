@@ -111,11 +111,11 @@ export class que extends LitElement {
         .then(res => { 
             this.sangerIQue =  Object.values(res);  
             this.currentSong = this.sangerIQue[0];
-            console.log("første sang navn " + this.sangerIQue[0].navn)
+            console.log("første sang navn " + this.sangerIQue[0].sang)
             console.log("første sang artist " + this.sangerIQue[0].artist)
-            console.log("andre sang navn " + this.sangerIQue[1].navn)
+            console.log("andre sang navn " + this.sangerIQue[1].sang)
             console.log("andre sang artist " + this.sangerIQue[1].artist)
-            console.log("tredje sang navn " + this.sangerIQue[1].navn)
+            console.log("tredje sang navn " + this.sangerIQue[1].sang)
             console.log("tredje sang artist " + this.sangerIQue[1].artist)
         })
     }
