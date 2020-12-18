@@ -43,7 +43,7 @@ export class que extends LitElement {
             allePlaylist: {type: Array},
             alleSokTreff: {type: Array},
             currentSong: {type: Object},
-            result: {Type: Object}
+            result: {type: Object}
         };
     }
 
@@ -54,18 +54,20 @@ export class que extends LitElement {
 
     render() {
         return html`
+               <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
           <div id="Tab_Player">
               <div class ="grid-container">
-                    <div class="row" id="mellom-tekst">
-                        Playing in channel: [channel]
-                    </div>
+                    <!-- <div class="row" id="mellom-tekst">
+                        Playing in channel: "Discord bot"
+                    </div> -->
 
                         <div class="row">
                             
                             <div>
-                            <button @click="${this.playQue}" class="btn btn-primary">Play queue</button>
-                            <button @click="${this.skipQue}" class="btn btn-primary">Skip queue</button>
-                            <button @click="${this.stopQue}" class="btn btn-primary">Stop queue</button>
+                            <button  @click="${this.playQue}" class="btn btn-primary">Play queue</button>
+                            <button  @click="${this.skipQue}" class="btn btn-primary">Skip</button>
+                            <button  @click="${this.stopQue}" class="btn btn-danger">Stop</button>
+                           <!-- onclick="setTimeout(location.reload.bind(location), 1)" -->
                                 <div id="stor-tekst">
                                     Queue:
                                 </div>
@@ -109,14 +111,15 @@ export class que extends LitElement {
         fetch(`${window.MyAppGlobals.serverURL}getSongQue`)
         .then(res => res.json())
         .then(res => { 
-            this.sangerIQue =  Object.values(res);  
+            this.sangerIQue =  Object.values(res);
+            this.sangerIQue.sort();
             this.currentSong = this.sangerIQue[0];
-            console.log("første sang navn " + this.sangerIQue[0].sang)
-            console.log("første sang artist " + this.sangerIQue[0].artist)
-            console.log("andre sang navn " + this.sangerIQue[1].sang)
-            console.log("andre sang artist " + this.sangerIQue[1].artist)
-            console.log("tredje sang navn " + this.sangerIQue[1].sang)
-            console.log("tredje sang artist " + this.sangerIQue[1].artist)
+            // console.log("første sang navn " + this.sangerIQue[0].sang)
+            // console.log("første sang artist " + this.sangerIQue[0].artist)
+            // console.log("andre sang navn " + this.sangerIQue[1].sang)
+            // console.log("andre sang artist " + this.sangerIQue[1].artist)
+            // console.log("tredje sang navn " + this.sangerIQue[1].sang)
+            // console.log("tredje sang artist " + this.sangerIQue[1].artist)
         })
     }
 

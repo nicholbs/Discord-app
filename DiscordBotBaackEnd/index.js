@@ -1,27 +1,24 @@
 // -------------------------------------Discord bot start--------------------------------
 const fs = require('fs');
 const Discord = require('discord.js');
-const {prefix, token} = require('./config.json');
+const {prefix, token, apiKey} = require('./config.json');
+const fetch = require('node-fetch');
 
 const client = new Discord.Client();
 client.commands = new Discord.Collection();
 
 
 const ytdl = require('ytdl-core');
+var botConnection;
 
-global.servers = {};
-global.ytdl = ytdl;
-global.server;
-global.serverID = "788612048740941876"
-global.spamID = "780561905877385226"
 
-if(!global.servers[global.serverID]) {  //5
-    global.servers[global.serverID] = {
-        queue: []
-    }
-    console.log("if //5")
-} 
-global.server = global.servers[global.serverID];
+
+var server;
+var serverID = "788612048740941876"
+var spamID = "780561905877385226"
+var dispatcher;
+var queue = [];
+var bleForrigeSangSkippet = false;
 
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 
@@ -36,10 +33,10 @@ for (const file of commandFiles) {
 
 
 client.on("ready", () => {
-    const channel = client.channels.cache.get(global.serverID);
+    const channel = client.channels.cache.get(serverID);
     if (!channel) return console.error("The channel does not exist!");
     channel.join().then(connection => {
-        // Yay, it worked!
+        botConnection = connection;
         console.log("Successfully connected.");
     }).catch(e => {
 
@@ -102,6 +99,7 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 var MySql = require('mysql');
+const { title } = require('process');
 
 var DB = MySql.createConnection({
     host     : 'localhost',
@@ -123,26 +121,6 @@ app.use(cors())
 
 app.get('/getSongQue', function (req, res) {
     console.log("app.get('/')")
-    // client.channels.cache.find(channel => channel.name === 'spam').send("!np"); // for discord v12
-
-    
-    // res.writeHead(200, { 'Content-Type': 'application/json' });
-  
-    // var que = JSON.stringify( {
-    //     sang1: {
-    //       navn: "Never gonna give you upp", 
-    //       artist: "Rick Astley" 
-    //     },
-    //     sang2: {
-    //       navn: "Good Morning", 
-    //       artist: "Kanye West" 
-    //     },
-    //     sang3: {
-    //       navn: "Perkele", 
-    //       artist: "keryue" 
-    //     }
-        
-    //   })
 
     DB.query('SELECT * FROM `sanger`', function (err, result) {
         if (err) {
@@ -155,20 +133,51 @@ app.get('/getSongQue', function (req, res) {
 })
  
 
-app.get('/playQue', function (req, res) {
+app.get('/playQue', function (req, res, next) {
     console.log("-----/playQue------");
 
     var answer = JSON.stringify({
         result: "ok"
-        })
+    })
 
-    //I fremtiden gjør db.query til MySql og lag sjekk på om query er tom. Send play que kommando om que ikke er tom
-    client.channels.cache.get(global.spamID).send('|play'); // put kommano for å spille que her istedenfor linken
-
-
-
-    res.send(answer);
+    DB.query('SELECT `link` FROM `sanger`', function(err, result) {
+        if (err) {
+            console.log("error i play")
+            res.status(400).send('Error in database operation.');
+        } else {
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            JSON.stringify(result);
+            queue = Object.values(result)
+            // res.writeHead({ 'Content-Type': 'application/json' });
+            // res.send(answer);
+            play()
+            res.end(JSON.stringify(result));
+        }
+    })
+       
 })
+
+
+   
+function play() {
+    if (queue.length != 0) {
+        dispatcher = botConnection.play(ytdl(queue[0].link, {filter: "audioonly"}));
+  
+        queue.shift();
+        bleForrigeSangSkippet = false;
+        dispatcher.on("finish", () =>{
+        if(queue.length != 0){
+            console.log("queue er ikke tom")
+            play()
+        } else if(queue.length == 0) {
+            console.log("queue er tom")
+        }
+     });
+    }
+    else {
+    console.log("queue er tom")
+    }
+}
 
 app.get('/addToQue', function (req, res) {
     console.log("----/addToQue-------");
@@ -186,46 +195,192 @@ app.get('/addToQue', function (req, res) {
 
 
 app.get('/skipQue', function (req, res) {
-    console.log("----/skipQue-----");
-    console.log("que før skip: " + global.server.queue)
-    global.server.queue.shift();
-    console.log("que etter skip: " + global.server.queue)
+    console.log("app.get('/skipQue");
+    if (queue.length != 0) {
+        if (bleForrigeSangSkippet == true) {
+            queue.shift();
+        } 
+        bleForrigeSangSkippet = true;
+        if (queue.length != 0) {
+            dispatcher = botConnection.play(ytdl(queue[0].link, {filter: "audioonly"}));
+        }
+        // queue.shift();
+    } else if (queue.length == 0) {
+        dispatcher.destroy();
+    }
     var answer = JSON.stringify({
         result: "ok"
         })
 
-    //I fremtiden gjør db.query til MySql og lag sjekk på om query er tom. Send play que kommando om que ikke er tom
-    client.channels.cache.get(global.spamID).send('|skip'); // put kommano for å spille que her istedenfor linken
-
-
     res.send(answer);
+})
+
+app.post('/removeSong', function (req, res) {
+    console.log("app.get('/removeSong: " + req.body.indeks);
+    var answer = JSON.stringify({
+        result: "ok"
+        })
+        
+
+        DB.query('DELETE FROM `sanger` WHERE `indeks`=' + req.body.indeks, function(err, result) {
+            if (err) {
+                console.log("error i play")
+            } else {
+                // res.writeHead(200, { 'Content-Type': 'application/json' });
+                DB.query('ALTER TABLE `sanger` DROP `indeks`', function(err, result) {
+                    if (err) {
+                        console.log("error i play")
+                    } else {
+                        DB.query('ALTER TABLE `sanger` ADD column `indeks` INT unsigned primary KEY AUTO_INCREMENT FIRST;', function(err, result) {
+                            if (err) {
+                                console.log("error i play")
+                            } else {
+                                res.end(answer);
+                            }
+                        })
+                    }
+                })
+            }
+        })
+
+        
+        
+})
+
+app.post('/orderDown', function (req, res) {
+    console.log("app.post('/orderDown: " + req.body.indeks);
+    var answer = JSON.stringify({
+        result: "ok"
+        })
+        // req.body.indeks += 1;
+        var sangUnder = req.body.indeks;
+        sangUnder += 1;
+        console.log("req.body.indeks: " + req.body.indeks)
+        console.log("sangUnder: " + sangUnder)
+        if (req.body.indeks != 0) {
+
+            DB.query('UPDATE `sanger` SET `indeks`= 0 WHERE `indeks` =' + sangUnder, function(err, result) {
+                if (err) {
+                    console.log("error i play")
+                } else {
+                    
+                    DB.query('UPDATE `sanger` SET `indeks`=' + sangUnder + ' WHERE `indeks` =' + req.body.indeks, function(err, result) {
+                        if (err) {
+                            console.log("error i play")
+                        } else {
+                            DB.query('UPDATE `sanger` SET `indeks`=' + req.body.indeks + ' WHERE `indeks` =0', function(err, result) {
+                                if (err) {
+                                    console.log("error i play")
+                                } else {
+                                    res.end(answer);
+                                }
+                            })
+                        }
+                    })
+                }
+            })
+        } else {
+            console.log("req.body.indeks er null: " + req.body.indeks)
+        }
+            
+})
+
+app.post('/orderUpp', function (req, res) {
+    console.log("app.post('/orderUpp: " + req.body.indeks);
+    var answer = JSON.stringify({
+        result: "ok"
+        })
+
+
+
+        var sangOver = req.body.indeks;
+        sangOver -= 1;
+        console.log("req.body.indeks: " + req.body.indeks)
+        console.log("sangUnder: " + sangOver)
+        if (req.body.indeks != 0) {
+
+            DB.query('UPDATE `sanger` SET `indeks`= 0 WHERE `indeks` =' + sangOver, function(err, result) {
+                if (err) {
+                    console.log("error i play")
+                } else {
+                    
+                    DB.query('UPDATE `sanger` SET `indeks`=' + sangOver + ' WHERE `indeks` =' + req.body.indeks, function(err, result) {
+                        if (err) {
+                            console.log("error i play")
+                        } else {
+                            DB.query('UPDATE `sanger` SET `indeks`=' + req.body.indeks + ' WHERE `indeks` =0', function(err, result) {
+                                if (err) {
+                                    console.log("error i play")
+                                } else {
+                                    res.end(answer);
+                                }
+                            })
+                        }
+                    })
+                }
+            })
+        } else {
+            console.log("req.body.indeks er null: " + req.body.indeks)
+        }
 })
 
 
 app.get('/stopQue', function (req, res) {
-    console.log("------/stopQue--------");
-    console.log("que før stop: " + global.server.queue)
-   
-    for(var i = global.server.queue.length -1; i >=0; i--) {
-        global.server.queue.splice(i, 1);
-    }
-    if(global.server.dispatcher) {
-        console.log("dispatcher destroy")
-        global.server.dispatcher.destroy();
-    }
-    
-    // client.dispatcher.end()
-    console.log("que etter stop: " + global.server.queue)
+    console.log("app.get('/stopQue");
+    queue = [];
+    dispatcher.destroy();
     var answer = JSON.stringify({
         result: "ok"
         })
-
-    //I fremtiden gjør db.query til MySql og lag sjekk på om query er tom. Send play que kommando om que ikke er tom
-    client.channels.cache.get(global.spamID).send('|stop'); // put kommano for å spille que her istedenfor linken
-
-
     res.send(answer);
 })
+
+app.post('/searchSong', function (req, response) {
+    console.log("app.post('/searchSong");
+    var answer;
+    console.log("req.body.sang: " + req.body.sang)
+   
+    // https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=20&q=YOURKEYWORD&type=video&key=YOURAPIKEY
+    fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=3&q=` + req.body.sang + `&type=video&key=` + apiKey)
+    .then(res => res.json())
+    .then(res => { 
+        console.log("res[items][0]['id]['videoId]: " + res['items'][0]['id']['videoId'])
+        console.log("res[items][0][snippet][title]: " + res['items'][0]['snippet']['title'])
+        // console.log("res[items][0][snippet][thumbnail]: " + res['items'][0]['snippet']['thumbnails']['default']['url'])
+        var videoId = res['items'][0]['id']['videoId'];
+        var videoTitle = res['items'][0]['snippet']['title'];
+
+        var videoId2 = res['items'][1]['id']['videoId'];
+        var videoTitle2 = res['items'][1]['snippet']['title'];
+
+        var videoId3 = res['items'][2]['id']['videoId'];
+        var videoTitle3 = res['items'][2]['snippet']['title'];
+
+        var download = "https://www.youtube.com/watch?v=" + videoId;
+        var download2 = "https://www.youtube.com/watch?v=" + videoId2;
+        var download3 = "https://www.youtube.com/watch?v=" + videoId3;
+
+      console.log("videoTitle: " + videoTitle)
+      console.log("download: " + download)
+       answer = JSON.stringify({
+        sang1: {
+
+            url: download,
+            title: videoTitle
+        },
+        sang2: {
+            url: download2,
+            title: videoTitle2
+        },
+        sang3: {
+            url: download3,
+            title: videoTitle3
+        },
+       })
+       response.end(answer);    
+    })
+})
+
 
 app.listen(8000)
 // -------------------------------------Nettside Back_end slutt--------------------------

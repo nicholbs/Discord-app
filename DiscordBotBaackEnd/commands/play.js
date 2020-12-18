@@ -26,10 +26,10 @@ module.exports = {
             // global.server.queue.push(args[0]);
             
             
-            if(!message.guild.voiceConnection) message.member.voice.channel.join().then(function(connection){//4
-                console.log("if //4")
-                play(connection, message);
-            });
+            // if(!message.guild.voiceConnection) message.member.voice.channel.join().then(function(connection){//4
+            //     console.log("if //4")
+            //     play(connection, message);
+            // });
 
             
 
@@ -42,32 +42,32 @@ module.exports = {
 	},
 };
 
-function play(connection, message) {
+// function play(connection, message) {
     // global.server = global.servers[global.serverID]
-    console.log("global.server.queue: " + global.server.queue);
-    console.log("global.server.queue: " + global.server.queue[1]);
-    console.log("global.sever: " + global.server);
+//     console.log("global.server.queue: " + global.server.queue);
+//     console.log("global.server.queue: " + global.server.queue[1]);
+//     console.log("global.sever: " + global.server);
 
 
-    // message = message.content.substring(PREFIX.length).split(" ");
+//     // message = message.content.substring(PREFIX.length).split(" ");
   
 
-    global.server.dispatcher = connection.play(global.ytdl(global.server.queue[0], {filter: "audioonly"}))
+//     global.server.dispatcher = connection.play(global.ytdl(global.server.queue[0], {filter: "audioonly"}))
     
-    global.server.dispatcher.on('error', (err) => console.log(err)); // tror ikke denne funksjonen gjør noe per nå
-    global.server.queue.shift();
+//     global.server.dispatcher.on('error', (err) => console.log(err)); // tror ikke denne funksjonen gjør noe per nå
+//     global.server.queue.shift();
 
 
-    global.server.dispatcher.on("finish", () =>{
-        if(global.server.queue[0]){
-            play(connection, message)
-        } else {
-            // connection.disconnect();
-            return;
-        }
-    })
+//     global.server.dispatcher.on("finish", () =>{
+//         if(global.server.queue[0]){
+//             play(connection, message)
+//         } else {
+//             // connection.disconnect();
+//             return;
+//         }
+//     })
 
   
     
 
-}
+// }

@@ -5,6 +5,7 @@ import './components/sangRad.js'
 import './components/playList.js'
 import './components/sangQue.js'
 import './components/search.js'
+import './components/searchRad.js'
 
 
 
