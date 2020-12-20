@@ -5,11 +5,11 @@ export class que extends LitElement {
 
     static styles = css`
     #Tab_Player {
-        /*Size*/
-        width: 30%;
-        height: auto;
-        min-width: 300px;
-        min-height: 200px;
+        // /*Size*/
+        // width: 30%;
+        // height: auto;
+        // min-width: 300px;
+        // min-height: 200px;
      
       
        
@@ -22,7 +22,7 @@ export class que extends LitElement {
 
     .grid-container {
         display: grid;
-        grid-template-rows: 300px auto auto;
+        grid-template-rows: auto auto auto;
         margin: 30px;
     }
 
@@ -66,6 +66,7 @@ export class que extends LitElement {
                             <div>
                             <button  @click="${this.playQue}" class="btn btn-primary">Play queue</button>
                             <button  @click="${this.skipQue}" class="btn btn-primary">Skip</button>
+                            <button  @click="${this.clearQue}" onclick="setTimeout(location.reload.bind(location), 1)" class="btn btn-danger">Clear</button>
                             <button  @click="${this.stopQue}" class="btn btn-danger">Stop</button>
                            <!-- onclick="setTimeout(location.reload.bind(location), 1)" -->
                                 <div id="stor-tekst">
@@ -82,6 +83,15 @@ export class que extends LitElement {
 
     playQue(e) {
         fetch(`${window.MyAppGlobals.serverURL}playQue`).then(res => res.json())
+        .then(res => { 
+            this.result =  Object.values(res);  
+            console.log("resultatet var: " + this.result[0])
+            
+        })
+    }
+
+    clearQue(e) {
+        fetch(`${window.MyAppGlobals.serverURL}clearQue`).then(res => res.json())
         .then(res => { 
             this.result =  Object.values(res);  
             console.log("resultatet var: " + this.result[0])
@@ -123,12 +133,5 @@ export class que extends LitElement {
         })
     }
 
-    getChannel(e) {
-        fetch(`${window.MyAppGlobals.serverURL}getSongQue`)
-        .then(res => res.json())
-        .then(res => { 
-            this.sangerIQue =  Object.values(res);  
-        })
-    }
 }
 customElements.define('sang-que', que);

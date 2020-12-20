@@ -8,7 +8,7 @@ html,body {
 }
 body {
     background: radial-gradient(circle, rgba(95,209,210,1) 0%, rgba(252,198,79,1) 100%);
-    overflow: hidden; /* Hide scrollbars */
+    /* overflow: hidden; Hide scrollbars */
    
 }
 #Current_Channel {

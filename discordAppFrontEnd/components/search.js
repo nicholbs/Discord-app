@@ -5,18 +5,18 @@ export class search extends LitElement {
 
     static styles = css`
     #Tab_Search {
-        /*Size*/
-        width: 30%;
-        height: 80%;
-        min-width: 300px;
-        min-height: 500px;
+        // /*Size*/
+        // width: 30%;
+        // height: 80%;
+        // min-width: 300px;
+        // min-height: 500px;
        
         
         
         
         background-color: rgb(255,255,255,.7);
         margin: 30px;
-        padding: 100px;
+        padding: 30px;
         border-radius: 10px;
         transition: .3s;
     }
@@ -38,22 +38,33 @@ export class search extends LitElement {
 
     render() {
         return html`
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
         <div id="Tab_Search">
             <!--Pure style. ikke bry deg om dette nå-->
-          
-            <form class="form">
-                <!--Første rad-->
-                <div class="row mt-2">
-                    <label for="songName">Name of song</label>
-                    <input type="text" name="songName"  id="songName" placeholder="Never gonna give you up" required> 
+        <div class="container">    
+            <div class="row"> 
+                <h2>Search youtube for a song</h2>
+                <form class="form-group form-group-lg">
+                    <!--Første rad-->
+                    <!-- <div class="row mt-2"> -->
+                        <label for="songName"></label>
+                        <input type="text" name="songName"  id="songName" placeholder="Never gonna give you up" required> 
+                        <!-- </div> -->
+                    </form>
+                    
+                    
+                    <div class="col"> 
+                        <button type="button" @click="${this.searchSong}" class="btn btn-primary">Search</button>
+                    </div>
                 </div>
-                <div>
-                    <button type="button" @click="${this.searchSong}" class="btn btn-primary">Search</button>
+            </div>
+            
+            
+            <div class="container">    
+                <div class="row"> 
+                    <h5>${this.searchResult ? html`${this.searchResult.map(i => html`<search-rad .sang=${i}></search-rad>`)}` : html``}</h5>
                 </div>
-            </form>
-
-
-            <h5>${this.searchResult ? html`${this.searchResult.map(i => html`<search-rad .sang=${i}></search-rad>`)}` : html``}</h5>
+            </div>
         
       
      `;
