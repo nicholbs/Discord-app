@@ -135,26 +135,48 @@ Use this space to show useful examples of how a project can be used. Additional 
 _For more examples, please refer to the [Documentation](https://example.com)_
 
 
-  <a href="https://github.com/nicholbs/Discord-app/blob/master/application_pictures/GuttaGangHomePage.PNG">
-    <img src="https://github.com/nicholbs/Discord-app/blob/master/application_pictures/GuttaGangHomePage.PNG" alt="Logo" width="400" height="220">
-  </a>
+ 
+
+<div align="center">
+   <h3 align="center">Home view</h3>
+    <p>There are three major functionalities on the music bot's website, namely Queue, Search and Playlist</p>
+      <a href="https://github.com/nicholbs/Discord-app/blob/master/application_pictures/GuttaGangHomePage.PNG">
+      <img src="https://github.com/nicholbs/Discord-app/blob/master/application_pictures/GuttaGangHomePage.PNG" alt="Logo" width="1500" height="500">
+    </a>
+</div>
   
 
-  <a href="https://github.com/nicholbs/Discord-app/blob/master/application_pictures/GuttaGangQueue.PNG">
-    <img src="https://github.com/nicholbs/Discord-app/blob/master/application_pictures/GuttaGangQueue.PNG" alt="Logo" width="400" height="300">
-  </a>
+
+<div align="center">
+ <h3>Queue</h3>
+  <p>The queue has a display of simple commands for handling the queue of songs, in addition a list is generated based on all songs in queue table in MySQL database</p>
+    <a href="https://github.com/nicholbs/Discord-app/blob/master/application_pictures/GuttaGangQueue.PNG">
+    <img src="https://github.com/nicholbs/Discord-app/blob/master/application_pictures/GuttaGangQueue.PNG" alt="Logo" width="600" height="800">
+    </a>
+</div>
   
+<div align="center">
+ <h3>Search</h3>
+  <p>Search field will retrieve a list of youtube videos matching keywords given using the youtube API</p>
    <a href="https://github.com/nicholbs/Discord-app/blob/master/application_pictures/GuttaGangSearch.PNG">
-    <img src="https://github.com/nicholbs/Discord-app/blob/master/application_pictures/GuttaGangSearch.PNG" alt="Logo" width="400" height="350">
+    <img src="https://github.com/nicholbs/Discord-app/blob/master/application_pictures/GuttaGangSearch.PNG" alt="Logo" width="800" height="750">
   </a>
-  
-  <a href="https://github.com/nicholbs/Discord-app/blob/master/application_pictures/GuttaGangSearchRad.PNG">
-    <img src="https://github.com/nicholbs/Discord-app/blob/master/application_pictures/GuttaGangSearchRad.PNG" alt="Logo" width="400" height="100">
+   <a href="https://github.com/nicholbs/Discord-app/blob/master/application_pictures/GuttaGangSearchRad.PNG">
+    <img src="https://github.com/nicholbs/Discord-app/blob/master/application_pictures/GuttaGangSearchRad.PNG" alt="Logo" width="800" height="200">
   </a>
+ </div>
+ 
 
+ 
+<div align="center">
+ <h3>Playlist</h3>
+  <p>As of now, a new playlist is generated from the current queue</p>
   <a href="https://github.com/nicholbs/Discord-app/blob/master/application_pictures/GuttaGangPlaylist.PNG">
-    <img src="https://github.com/nicholbs/Discord-app/blob/master/application_pictures/GuttaGangPlaylist.PNG" alt="Logo" width="400" height="280">
+    <img src="https://github.com/nicholbs/Discord-app/blob/master/application_pictures/GuttaGangPlaylist.PNG" alt="Logo" width="800" height="560">
   </a>
+</div>
+
+
 ## Roadmap
 
 See the [open issues](https://github.com/nicholbs/Discord-app/issues) for a list of proposed features (and known issues).
