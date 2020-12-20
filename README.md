@@ -76,30 +76,54 @@
 
 ## Getting Started
 
-Both folders "Discord
+Both folders "DiscordBotBaackEnd" and "discordAppFrontEnd" are individual NodeJS projects, furthermore they also contain different dependencies which are required before getting started!
+
+In addition, the discord bot stores all playlists and music queue into a Mysql database.
+A Mysql init file will be committed at later stages, for example the project will most likely be made accessible as a Docker-container in future which require little to non configuration before running.
+
+Lastly, the search for youtube videos functionality works with Google and youtube API which means an individual API key is needed.
 
 ### Prerequisites
 
-This is an example of how to list things you need to use the software and how to install them.
+clone this git repo and open a terminal into "DiscordBotBaackEnd":
 * npm
   ```sh
-  npm install npm@latest -g
+  npm install @discordjs/opus
+  npm install cors
+  npm install dirscord.js
+  npm install eslint
+  npm install express
+  npm install ffmpeg-static
+  npm install mysql
+  npm install node-fetch
+  npm install opusscript
+  npm install prism-media
+  npm install ytdl-core
+  ```
+  
+  Change directory to "discordAppFrontEnd":
+* npm
+  ```sh
+  npm install @vaadin/router
+  npm install es-dev-server
+  npm install lit-element
   ```
 
 ### Installation
 
-1. Get a free API Key at [https://example.com](https://example.com)
+1. Get a free API Key at [Google API](https://developers.google.com/maps/documentation/javascript/get-api-key)
 2. Clone the repo
    ```sh
-   git clone https://github.com/your_username_/Project-Name.git
+   git clone https://github.com/nicholbs/Discord-app.git
    ```
 3. Install NPM packages
    ```sh
-   npm install
+   npm install ...
    ```
-4. Enter your API in `config.js`
+4. Enter your API and discord-bot token in `config.js`
    ```JS
-   const API_KEY = 'ENTER YOUR API';
+   apiKey = 'ENTER YOUR API';
+   token = 'ENTER YOUR TOKEN'
    ```
 
 
