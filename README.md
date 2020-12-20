@@ -19,13 +19,13 @@
 <br />
 <p align="center">
   <a href="https://github.com/othneildrew/Best-README-Template">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
+    <img src="https://www.google.com/url?sa=i&url=https%3A%2F%2Fblog.sonicbids.com%2F6-predictions-for-the-next-decade-of-music&psig=AOvVaw0OqZGzxG0BPGZsri1R-c-W&ust=1608580682410000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCICF_Jes3e0CFQAAAAAdAAAAABAD" alt="Logo" width="80" height="80">
   </a>
 
-  <h3 align="center">Best-README-Template</h3>
+  <h3 align="center">Discord music bot</h3>
 
   <p align="center">
-    An awesome README template to jumpstart your projects!
+    Discord music bot
     <br />
     <a href="https://github.com/othneildrew/Best-README-Template"><strong>Explore the docs »</strong></a>
     <br />
