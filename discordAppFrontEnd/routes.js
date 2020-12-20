@@ -14,7 +14,9 @@ import './components/playListRad.js'
 			const router = new Router(outlet);
 			router.setRoutes([
 			  {path: '/', component: 'kontroll-senter'},  //path er hvilken sti etter 8080 den skal ha, component er samme navnet siom lit elementet
-			  {path: '/sang', component: 'sang-rad'},
+			  {path: '/queue', component: 'sang-que'},
+			  {path: '/search', component: 'search-sang'},
+			  {path: '/playlist', component: 'play-list'},
 			]);
 
 			// <div id="outlet"></div> <!--Ikke rør, tilknyttet rutingen, se routes.js-->		legg denne til i index.html i body om du vil bruke routes

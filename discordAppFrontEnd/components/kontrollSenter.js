@@ -2,72 +2,68 @@
 import { LitElement, html, css } from '../node_modules/lit-element';
 
 export class kontrollSenter extends LitElement {
-
+    /**************************************************************************
+     * Cascade Style Sheeting for this lit-element.
+     * 
+     * Each lit-element is created inside the 'shadow document object model'
+     * and is not affected by inherited styling.
+     * 
+     * @author nicholbs 
+     * @var styles - defined in litElement module to contain CSS for lit-element 
+     **************************************************************************/
     static styles = css`
     
     `;
 
-
+    /**************************************************************************
+     * All variables with relations to the lit-element is defined in properties
+     * 
+     * @author nicholbs 
+     **************************************************************************/
     static get properties() {
         return {
-            result: {Type: Object}
         };
     }
 
+    /**************************************************************************
+     * All variables with relations to the lit-element is defined in properties
+     * 
+     * @author nicholbs 
+     **************************************************************************/
     constructor() {
         super();
     }
 
 
-
+    /**************************************************************************
+     * When a lit-element's tags are put into a document object module it will
+     * render the following html
+     * 
+     * @author nicholbs 
+     **************************************************************************/
     render() {
         return html`
-          <!--Queue listen. "Queue_Song" er stilen. Referer til den når en sang blir lagt til i queuen-->
-          <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
-         
-        <div class="container-fluid"> <!-- container start -->
-        <div class="row">   <!-- row slutt -->    
-
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
         
-       
+        <div class="container-fluid">
+            <div class="row">  
 
-        <div class="col h-75">
-            <search-sang></search-sang>
-        </div>
+                <div class="col h-75">
+                    <search-sang></search-sang>
+                </div>
 
-        <div class="col">
-            <sang-que></sang-que>
-        </div>
+                <div class="col">
+                    <sang-que></sang-que>
+                </div>
 
-        <div class="col h-75">
-            <play-list></play-list>
+                <div class="col h-75">
+                    <play-list></play-list>
+                </div>
 
-        </div>
-
-    </div>      <!-- row slutt -->
-</div>  <!-- container slutt -->
+            </div>
+        </div> 
      `;
     }
-
-    
-     /**
-     * This function take the desierd password and send it backend for registring the new password
-     */
-    // getQue(e) {
-    //     fetch(`${window.MyAppGlobals.serverURL}getSongQue`)
-    //     .then(res => res.json())
-    //     .then(res => { 
-    //         this.sangerIQue =  Object.values(res);  
-    //         this.currentSong = this.sangerIQue[0];
-    //         console.log("første sang navn " + this.sangerIQue[0].navn)
-    //         console.log("første sang artist " + this.sangerIQue[0].artist)
-    //         console.log("andre sang navn " + this.sangerIQue[1].navn)
-    //         console.log("andre sang artist " + this.sangerIQue[1].artist)
-    //         console.log("tredje sang navn " + this.sangerIQue[1].navn)
-    //         console.log("tredje sang artist " + this.sangerIQue[1].artist)
-    //     })
-    // }
-
 
 }
 customElements.define('kontroll-senter', kontrollSenter);

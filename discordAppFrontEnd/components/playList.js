@@ -3,6 +3,15 @@ import { LitElement, html, css } from '../node_modules/lit-element';
 
 export class playListSongs extends LitElement {
 
+    /**************************************************************************
+     * Cascade Style Sheeting for this lit-element.
+     * 
+     * Each lit-element is created inside the 'shadow document object model'
+     * and is not affected by inherited styling.
+     * 
+     * @author nicholbs 
+     * @var styles - defined in litElement module to contain CSS for lit-element 
+     **************************************************************************/
     static styles = css`
     #Tab_Playlists {
         /*Size*/
@@ -22,32 +31,45 @@ export class playListSongs extends LitElement {
     }
     `;
 
-
+    /**************************************************************************
+     * All variables with relations to the lit-element is defined in properties
+     * 
+     * @author nicholbs 
+     * @var playListResult - Array of all names of playlist database tables
+     **************************************************************************/
     static get properties() {
         return {
             playListResult: {type: Array},
         };
     }
 
+    /**************************************************************************
+     * Constructor is called whenever an instance of its lit-element is created
+     * 
+     * @author nicholbs 
+     * @see getPlayLists - Retrieves all names of playlist database tables
+     **************************************************************************/
     constructor() {
         super();
         this.getPlayLists()
     }
 
+    /**************************************************************************
+     * When a lit-element's tags are put into a document object module it will
+     * render the following html
+     * 
+     * @author nicholbs 
+     **************************************************************************/
     render() {
         return html`
          <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
         <div id="Tab_Playlists">
-            <!--Pure style. ikke bry deg om dette nå-->
             <h4>Save queue to playlist</h4>
             <div class="container">    
                 <div class="row"> 
                     <form class="form-group form-group-lg">
-                        <!--Første rad-->
-                        <!-- <div class="row mt-2"> -->
                             <label for="playListName"></label>
                             <input type="text" name="playListName"  id="playListName" placeholder="ikke skriv store bokstaver" required> 
-                            <!-- </div> -->
                         </form>
                         
                         
@@ -68,6 +90,17 @@ export class playListSongs extends LitElement {
      `;
     }
 
+    /*****************************************************************************
+     * Front-end sends a request to retrieve name of all play list database tables
+     * 
+     * All names of playlists tables are put into the lit-element's property 
+     * 'playListResult' which maps each stored element into a <playlist-rad> 
+     * lit-element with its according values. 
+     * 
+     * @author nicholbs 
+     * @param res - respone from Back-end
+     * @var playListResult - Array of names for all play list tables retrieved
+    //  *************************************************************************/
     getPlayLists(e) {
         fetch(`${window.MyAppGlobals.serverURL}getPlayLists`)
         .then(res => res.json())
@@ -85,6 +118,17 @@ export class playListSongs extends LitElement {
         })
     }
 
+    /************************************************************************
+     * Front-end sends a request to insert all songs in queue into playlist
+     * 
+     * The name of playlist specified in the input field will either be
+     * created or overwritten depending on wether the playlist existed
+     * beforehand or not.
+     * 
+     * @author nicholbs 
+     * @param res - respone from Back-end
+     * @var inputVal - Input field containing input for name of playlist
+     ***********************************************************************/
     saveQueue(e) {
         
         var inputVal = this.shadowRoot.getElementById("playListName").value;

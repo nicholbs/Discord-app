@@ -3,6 +3,15 @@ import { LitElement, html, css } from '../node_modules/lit-element';
 
 export class sangRad extends LitElement {
 
+    /**************************************************************************
+     * Cascade Style Sheeting for this lit-element.
+     * 
+     * Each lit-element is created inside the 'shadow document object model'
+     * and is not affected by inherited styling.
+     * 
+     * @author nicholbs 
+     * @var styles - defined in litElement module to contain CSS for lit-element 
+     **************************************************************************/
     static styles = css`
     #sanger {
         /*Size*/
@@ -35,7 +44,13 @@ export class sangRad extends LitElement {
 
     `;
 
-
+    /**************************************************************************
+     * All variables with relations to the lit-element is defined in properties
+     * 
+     * @author nicholbs 
+     * @var sang - Variable holding all information regarding the song
+     * @var visible - Not currently in use, can be used to hide/show html
+     **************************************************************************/
     static get properties() {
         return {
             sang: {type: Object},
@@ -46,23 +61,29 @@ export class sangRad extends LitElement {
         };
     }
 
+    /**************************************************************************
+     * All variables with relations to the lit-element is defined in properties
+     * 
+     * @author nicholbs 
+     **************************************************************************/
     constructor() {
         super();
     }
 
+    /**************************************************************************
+     * When a lit-element's tags are put into a document object module it will
+     * render the following html
+     * 
+     * @author nicholbs 
+     **************************************************************************/
     render() {
         return html`
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
          <div class="container">
             <div class="row justify-content-center" id="sanger">
                 <div class="col-8"> 
-                    <p id="blue">${this.sang.sang} 
-                        <!-- <small class="text-muted">${this.sang.artist}</small> -->
-                        <!-- <cite title="Source Title" id="black">- ${this.sang.artist}</cite> -->
-                    </p>
+                    <p id="blue">${this.sang.sang} </p>
                 </div>
-          
-                
        
                 <div class="col-1">
                     <div class="row">
@@ -81,6 +102,15 @@ export class sangRad extends LitElement {
         </div>
         `;
     }
+
+    /**************************************************************************
+     * Front-end sends a request to delete the specified song entry inside the 
+     * queue database table.
+     * 
+     * @author nicholbs 
+     * @param res - respone from Back-end
+     * @var sang - Contains all information regardign the specified song
+     *************************************************************************/
     removeSong(e) {
         console.log(this.sang.indeks)
         fetch(`${window.MyAppGlobals.serverURL}removeSong`, {
@@ -100,6 +130,14 @@ export class sangRad extends LitElement {
         })
     }
 
+    /**************************************************************************
+     * Front-end sends a request to increase the specified song entry's index
+     * number inside the queue database table.
+     * 
+     * @author nicholbs 
+     * @param res - respone from Back-end
+     * @var sang - Contains all information regardign the specified song
+     *************************************************************************/
     orderUpp(e) {
         console.log(this.sang.indeks)
         fetch(`${window.MyAppGlobals.serverURL}orderUpp`, {
@@ -119,6 +157,14 @@ export class sangRad extends LitElement {
         })
     }
 
+    /**************************************************************************
+     * Front-end sends a request to decrease the specified song entry's index
+     * number inside the queue database table.
+     * 
+     * @author nicholbs 
+     * @param res - respone from Back-end
+     * @var sang - Contains all information regardign the specified song
+     *************************************************************************/
     orderDown(e) {
         console.log(this.sang.indeks)
         fetch(`${window.MyAppGlobals.serverURL}orderDown`, {
