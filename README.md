@@ -135,8 +135,26 @@ Use this space to show useful examples of how a project can be used. Additional 
 _For more examples, please refer to the [Documentation](https://example.com)_
 
 
+  <a href="https://github.com/nicholbs/Discord-app/blob/master/application_pictures/GuttaGangHomePage.PNG">
+    <img src="https://github.com/nicholbs/Discord-app/blob/master/application_pictures/GuttaGangHomePage.PNG" alt="Logo" width="400" height="220">
+  </a>
+  
 
+  <a href="https://github.com/nicholbs/Discord-app/blob/master/application_pictures/GuttaGangQueue.PNG">
+    <img src="https://github.com/nicholbs/Discord-app/blob/master/application_pictures/GuttaGangQueue.PNG" alt="Logo" width="400" height="300">
+  </a>
+  
+   <a href="https://github.com/nicholbs/Discord-app/blob/master/application_pictures/GuttaGangSearch.PNG">
+    <img src="https://github.com/nicholbs/Discord-app/blob/master/application_pictures/GuttaGangSearch.PNG" alt="Logo" width="400" height="350">
+  </a>
+  
+  <a href="https://github.com/nicholbs/Discord-app/blob/master/application_pictures/GuttaGangSearchRad.PNG">
+    <img src="https://github.com/nicholbs/Discord-app/blob/master/application_pictures/GuttaGangSearchRad.PNG" alt="Logo" width="400" height="100">
+  </a>
 
+  <a href="https://github.com/nicholbs/Discord-app/blob/master/application_pictures/GuttaGangPlaylist.PNG">
+    <img src="https://github.com/nicholbs/Discord-app/blob/master/application_pictures/GuttaGangPlaylist.PNG" alt="Logo" width="400" height="280">
+  </a>
 ## Roadmap
 
 See the [open issues](https://github.com/nicholbs/Discord-app/issues) for a list of proposed features (and known issues).
