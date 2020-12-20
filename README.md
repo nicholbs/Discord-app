@@ -124,7 +124,7 @@ clone this git repo and open a terminal into "DiscordBotBaackEnd":
    apiKey = 'ENTER YOUR API';
    token = 'ENTER YOUR TOKEN'
    ```
-
+5. Lastly, Mysql database is necessarry. As of now there is no initializable database file, wait for future release!
 
 
 
