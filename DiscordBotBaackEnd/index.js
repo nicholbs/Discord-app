@@ -200,10 +200,10 @@ const { json } = require('express');    //Probably added automatically by IDE vi
  * @var DB
  ********************************************************/
 var DB = MySql.createConnection({
-    host     : 'localhost',
-    user     : 'root',
-    password : '',
-    database : 'discord'
+    host     : 'ENTER WHERE MYSQL IS MADE AVAILABLE, FOR EXAMPLE "localhost"',
+    user     : 'ENTER NAME OF USER TO LOG INTO MYSQL',
+    password : 'ENTER PASSWORD FOR USER',
+    database : 'ENTER NAME OF MYSQL DATABASE USED FOR HOLDING DISCORD BOT QUEUE AND PLAYLISTS'
 })
 
 
