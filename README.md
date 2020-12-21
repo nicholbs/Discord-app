@@ -115,12 +115,36 @@ clone this git repo and open a terminal into "DiscordBotBaackEnd":
    ```sh
    npm install ...
    ```
-4. Enter your API and discord-bot token in `config.js`
+4. Update variables in DiscordBotBaackEnd folder
+
+Enter your API key and discord-bot token  in `config.js`
    ```JS
-   apiKey = 'ENTER YOUR API';
+   apiKey = 'ENTER YOUR API KEY';
    token = 'ENTER YOUR TOKEN'
    ```
-5. Lastly, Mysql database is necessarry. As of now there is no initializable database file, wait for future release!
+Enter your voicechat server id which the bot will connect to and MySQL information  in `index.js`
+   ```JS
+   var serverID = "ENTER DISCORD VOICE SERVER ID FOR WHERE THE BOT SHOULD CONNECT TO"
+   var DB = MySql.createConnection({
+    host     : 'ENTER WHERE MYSQL IS MADE AVAILABLE, FOR EXAMPLE "localhost"',
+    user     : 'ENTER NAME OF USER TO LOG INTO MYSQL',
+    password : 'ENTER PASSWORD FOR USER',
+    database : 'ENTER NAME OF MYSQL DATABASE USED FOR HOLDING DISCORD BOT QUEUE AND PLAYLISTS'
+    })
+   ```
+   
+5. Update variables in discordAppFrontEnd folder
+Enter the URL of where the app is listening for requests `index.html`
+   ```JS
+   window.MyAppGlobals = {
+            rootPath: '/',
+            serverURL: 'ENTER YOUR URL FOR WEBSITE HERE'
+            // serverURL: 'http://localhost:8000/'
+        };
+   ```
+
+
+6. Lastly, Mysql database is necessarry. As of now there is no initializable database file, wait for future release!
 
 
 
