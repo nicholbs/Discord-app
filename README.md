@@ -62,8 +62,7 @@
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
-
-[![Controll Panel][product-screenshot]](https://example.com)
+There are many alternatives for "listening parties" on Discord. For example the music bot "Rythm" or Spotify's own listening party functionality. Despite this, both services do not provide an easy to use "Control Panel" where listeners can alter the queue and insert new entries. It is with this in mind we are creating a bot, website and database to be easily available. As of now in individual components, but will in future be available as a docker container if not fully launchable without much configuration needed.  
 
 
 ### Built With
