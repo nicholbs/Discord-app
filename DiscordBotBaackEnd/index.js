@@ -38,7 +38,7 @@ var botConnection;
  * @author nicholbs
  * @var serverID 
  **************************************************************************/
-var serverID = "788612048740941876"
+var serverID = "ENTER DISCORD VOICE SERVER ID FOR WHERE THE BOT SHOULD CONNECT TO"
 
 /************************************************************************
  * Variable for holding refference to the bot's 'speakers'. 
