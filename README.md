@@ -150,13 +150,6 @@ Enter the URL of where the app is listening for requests `index.html`
 
 ## Usage
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
-
-_For more examples, please refer to the [Documentation](https://example.com)_
-
-
- 
-
 <div align="center">
    <h3 align="center">Home view</h3>
     <p>There are three major functionalities on the music bot's website, namely Queue, Search and Playlist</p>
