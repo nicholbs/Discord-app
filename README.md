@@ -23,9 +23,7 @@
 
   <h3 align="center">Discord music bot</h3>
 
-  <p align="center">
-   GuttaGangBot
-  </p>
+
 
 
 
