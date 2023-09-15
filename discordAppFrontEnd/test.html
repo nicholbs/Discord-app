@@ -12,11 +12,31 @@
         
 
         	<!-- Bootstrap CSS -->
-        <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous"> -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
         
-        <!-- Isak CSS -->
-        <link rel="stylesheet" href="Style.css">
-        <link rel="stylesheet" type="text/css" href="public/CSS/search.css" />
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+        <div id="Tab_Player">
+            <div class ="grid-container">
+                  <!-- <div class="row" id="mellom-tekst">
+                      Playing in channel: "Discord bot"
+                  </div> -->
+
+                      <div class="row">
+                          
+                          <div>
+                          <button  @click="${this.playQue}" class="btn btn-primary">Play queue</button>
+                          <button  @click="${this.skipQue}" class="btn btn-primary">Skip</button>
+                          <button  @click="${this.clearQue}" onclick="setTimeout(location.reload.bind(location), 1)" class="btn btn-danger">Clear</button>
+                          <button  @click="${this.stopQue}" class="btn btn-danger">Stop</button>
+                         <!-- onclick="setTimeout(location.reload.bind(location), 1)" -->
+                              <div id="stor-tekst">
+                                  Queue:
+                              </div>
+                              ${this.sangerIQue.map(i => html`<sang-rad .sang=${i}></sang-rad>`)}
+                          </div>
+                      </div>
+              </div>
+        </div>
 
     <script>
         // window.ShadyDOM = {

@@ -87,7 +87,7 @@ export class search extends LitElement {
                     <h5>${this.searchResult ? html`${this.searchResult.map(i => html`<search-rad .sang=${i}></search-rad>`)}` : html``}</h5>
                 </div>
             </div>
-        
+            <link rel="stylesheet" type="text/css" href="public/CSS/search.css" />
       
      `;
     }

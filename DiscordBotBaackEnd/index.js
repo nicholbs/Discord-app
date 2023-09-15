@@ -2,21 +2,61 @@
 const fs = require('fs');       //Dependency for working with filesystems in general, in practice a package from 'npm'
 const Discord = require('discord.js');  //Dependency for working with Discord in node.js, in practice a package from 'npm'
 const {prefix, token, apiKey} = require('./config.json');   //Local file for storing configurable variables used throughout the application
-const fetch = require('node-fetch');    //Dependency for working with web requests in node.js, in practice a package from 'npm'
-const ytdl = require('ytdl-core');      //Dependency for downloaading youtube videos in node.js, in practice a package from 'npm'
+const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));    //Dependency for working with web requests in node.js, in practice a package from 'npm'
+// const ytdl = require('ytdl-core');      //Dependency for downloaading youtube videos in node.js, in practice a package from 'npm'
+const { Intents } = require('discord.js');
+// Discord voice recognition
+const { joinVoiceChannel, NoSubscriberBehavior, AudioResource } = require("@discordjs/voice");
+const { addSpeechEvent } = require("discord-speech-recognition");
+const { Client, GatewayIntentBits } = require("discord.js");
+// Once you have the package installed, you will create a function called wait. It's a simple way to wait without blocking the rest of the script.
+const wait = require('util').promisify(setTimeout);
+// for å bygge knapper på meldinger
+const { ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
+const { getVoiceConnection, StreamType, demuxProbe, AudioPlayerStatus, VoiceConnectionStatus } = require('@discordjs/voice');
 
+
+
+const play = require('play-dl')
+
+const { createAudioPlayer, createAudioResource } = require('@discordjs/voice');
 /******************************************************
  * Constant for holding a refference to the discord bot
  * 
  * @author nicholbs
  * @constant client
  *****************************************************/
-const client = new Discord.Client();
+const client = new Discord.Client({
+    intents: [
+          GatewayIntentBits.GuildVoiceStates,
+          GatewayIntentBits.GuildMessages,
+          GatewayIntentBits.Guilds,
+        ],
+  });
 
- 
+/*********************************************
+ * Bot log into account with token from config
+ * 
+ * @author nicholbs 
+********************************************/
+client.login(token);
+
+// client.channels.fetch(serverID).then((channel) => { // channel object
+    
+//     const VoiceConnection = joinVoiceChannel({
+//         channelId: channel.id, // the voice channel's id
+//         guildId: channel.guild.id, // the guild that the channel is in
+//         adapterCreator: channel.guild.voiceAdapterCreator // and setting the voice adapter creator
+//     });
+// });
+
+// addSpeechEvent(client);
+
+let resource //variable for holding audio resource to listen to audio streams from youtube and soundcloud
+
 
 /***************************************************************************************
- * Discord.js comes with this utility class known as Collection.
+ * Discord.js comes with this utility class known as Collection.6
  * It extends JavaScript's native Map class, so it has all the features of Map and more!
  * 
  * @author nicholbs
@@ -32,13 +72,28 @@ client.commands = new Discord.Collection();
  **************************************************************************************/
 var botConnection;
 
+
+// player event listener?
+const player = createAudioPlayer({
+    behaviors: {
+        noSubscriber: NoSubscriberBehavior.Play
+    }
+});
+player.setMaxListeners(1)
+
+player.on('error', error => {
+	console.error('Error:', error.message, 'with track', error.resource.metadata);
+});
+
+
 /**************************************************************************
  * Variable which contains ID of the voice server which the bot connects to
  * 
  * @author nicholbs
  * @var serverID 
  **************************************************************************/
-var serverID = "ENTER DISCORD VOICE SERVER ID FOR WHERE THE BOT SHOULD CONNECT TO"
+// var serverID = "1018469825552601162"
+var serverID = "271351366218285056"
 
 /************************************************************************
  * Variable for holding refference to the bot's 'speakers'. 
@@ -110,16 +165,71 @@ for (const file of commandFiles) {
  * @see Definition - @constant commandFiles
  *******************************************************/
 client.on("ready", () => {
-    const channel = client.channels.cache.get(serverID);
-    if (!channel) return console.error("The channel does not exist!");
-    channel.join().then(connection => {
-        botConnection = connection;
-        console.log("Successfully connected.");
-    }).catch(e => {
+    console.log("Ready")
+    var voiceChannel = client.channels.cache.get(serverID);
+    // const voiceChannel = msg.member?.voice.channel
+    if (voiceChannel) {
+        botConnection = joinVoiceChannel({
+            channelId: voiceChannel.id,
+            guildId: voiceChannel.guild.id,
+            adapterCreator: voiceChannel.guild.voiceAdapterCreator,
+            selfDeaf: false,
+        })
 
-        // Oh no, it errored! Let's log it to console :)
-        console.error(e);
-    });
+    }
+    // const channel = client.channels.cache.get(serverID);
+  
+    // if (!channel) return console.error("The channel does not exist!");
+    // channel.join().then(connection => {
+    //     botConnection = connection;
+    //     console.log("Successfully connected.");
+    // }).catch(e => {
+
+    //     // Oh no, it errored! Let's log it to console :)
+    //     console.error(e);
+    // });
+});
+
+/********************************************************
+ * When bot is initialized it will connect to a voicechat
+ * 
+ * @author nicholbs
+ * @see Definition - @constant commandFiles
+ *******************************************************/
+ client.on("messageCreate", (msg) => {
+    console.log("MessageCreate")
+});
+
+
+client.on("speech", (msg) => {
+    // If bot didn't recognize speech, content will be empty
+    console.log("speech, melding: " + msg.content)
+    if (!msg.content) return;
+    
+    if(msg.content.startsWith("next")){
+            playSong();
+            
+    }
+
+    if(msg.content.startsWith("stop")){
+        
+    }
+
+    if(msg.content.startsWith("niga")){       
+        msg.author.send("This is the curse police, OPEN UP. Dont think you can get away with saying: nigga")
+    }
+
+    if(msg.content.startsWith("interrupt")){       
+        msg.author.send("Bro alt for sent, du må interrupte tidligere ROFLMAO")
+    }
+
+    if(msg.content.startsWith("interpreter")){       
+        msg.author.send("Bro alt for sent, du må interrupte tidligere ROFLMAO")
+    }
+    if(msg.content.startsWith("dragonfly")){       
+        msg.author.send("Dragon flight DEEZ nuts iNTO YoUR Muots")
+    }
+    
 });
 
 /*********************************************
@@ -128,54 +238,51 @@ client.on("ready", () => {
  * 
  * @author nicholbs 
  ********************************************/
-// client.on('message', message => {
-//     console.log("Nå kom en melding: " + message)
-//     if (!message.content.startsWith(prefix)){
-//         return;
-//     } 
-//     // || message.author.bot)       //Legg på denne dersom det er ønskelig at robot ikke skal reagere på egne meldinger
+client.on('message', async (message) => {
+    console.log("Nå kom en melding: " + message.content)
+    if (!message.content.startsWith(prefix)){
+        return;
+    } 
+    // || message.author.bot)       //Legg på denne dersom det er ønskelig at robot ikke skal reagere på egne meldinger
+    console.log("jeg tolker meldingen videre")
+	const args = message.content.slice(prefix.length).trim().split(/ +/);
+    const commandName = args.shift().toLowerCase();
 
-// 	const args = message.content.slice(prefix.length).trim().split(/ +/);
-//     const commandName = args.shift().toLowerCase();
+    const command = client.commands.get(commandName)
+		|| client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
 
-//     const command = client.commands.get(commandName)
-// 		|| client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
-
-//     if (!command) { 
-//     return message.reply('that\'s not a valid command!');
-//     }
-
-
-//     if (command.guildOnly && message.channel.type === 'dm') {
-//         return message.reply('I can\'t execute that command inside DMs!');
-//     }
+    if (!command) { 
+    return message.reply('that\'s not a valid command!');
+    }
 
 
-//     if (command.args && !args.length) {
-//         let reply = `You didn't provide any arguments, ${message.author}!`;
-//         if (command.usage) {
-//         	reply += `\nThe proper usage would be: \`${prefix}${command.name} ${command.usage}\``;
-//         	}
+    if (command.guildOnly && message.channel.type === 'dm') {
+        return message.reply('I can\'t execute that command inside DMs!');
+    }
+
+
+    if (command.args && !args.length) {
+        let reply = `You didn't provide any arguments, ${message.author}!`;
+        if (command.usage) {
+        	reply += `\nThe proper usage would be: \`${prefix}${command.name} ${command.usage}\``;
+        	}
         
-//         	return message.channel.send(reply);
-//             }
+        	return message.channel.send(reply);
+            }
 
 
-//         try {
-//             command.execute(message, args);
-//         } catch (error) {
-//             console.error(error);
-//             message.reply('there was an error trying to execute that command!');
-//         }
+        try {
+            command.execute(message, args);
+        } catch (error) {
+            console.error(error);
+            message.reply('there was an error trying to execute that command!');
+        }
 
-// });
+});
 
-/*********************************************
- * Bot log into account with token from config
- * 
- * @author nicholbs 
- ********************************************/
-client.login(token);
+
+
+
 
 
 // ----------------------------- Discord bot slutt
@@ -188,9 +295,11 @@ const express = require('express');     //Dependency for creating an 'app' in no
 const app = express();
 const cors = require('cors');           //Dependency for handling cross origin web requests in node.js, in practice a package from 'npm'
 var MySql = require('mysql');           //Dependency for working with the database Mysql in node.js, in practice a package from 'npm'
-const { title } = require('process');   //Dependency for ......uncertain in node.js, in practice a package from 'npm'
+const { title, removeListener, removeAllListeners } = require('process');   //Dependency for ......uncertain in node.js, in practice a package from 'npm'
 const { split } = require('ffmpeg-static'); //Dependency for Returns the path of a statically linked ffmpeg binary on the local filesystem in node.js, in practice a package from 'npm'
 const { json } = require('express');    //Probably added automatically by IDE visual studio code, do not think it is needed or used
+const { join } = require('path');
+const { create } = require('domain');
 
 
 /*********************************************************
@@ -200,10 +309,10 @@ const { json } = require('express');    //Probably added automatically by IDE vi
  * @var DB
  ********************************************************/
 var DB = MySql.createConnection({
-    host     : 'ENTER WHERE MYSQL IS MADE AVAILABLE, FOR EXAMPLE "localhost"',
-    user     : 'ENTER NAME OF USER TO LOG INTO MYSQL',
-    password : 'ENTER PASSWORD FOR USER',
-    database : 'ENTER NAME OF MYSQL DATABASE USED FOR HOLDING DISCORD BOT QUEUE AND PLAYLISTS'
+    host     : 'localhost',
+    user     : 'root',
+    password : '',
+    database : 'discord'
 })
 
 
@@ -382,18 +491,24 @@ app.get('/playQue', function (req, res, next) {
         result: "ok"
     })
 
-    DB.query('SELECT `link` FROM `sanger`', function(err, result) {
+    DB.query('SELECT `link`, `sang` FROM `sanger`', function(err, result) {
         if (err) {
             console.log("error i play")
             res.status(400).send('Error in database operation.');
         } else {
-            res.writeHead(200, { 'Content-Type': 'application/json' });
-            JSON.stringify(result);
-            queue = Object.values(result)
-            // res.writeHead({ 'Content-Type': 'application/json' });
-            // res.send(answer);
-            play()
-            res.end(JSON.stringify(result));
+            try {
+                
+                res.writeHead(200, { 'Content-Type': 'application/json' });
+                JSON.stringify(result);
+                queue = Object.values(result)
+                // res.writeHead({ 'Content-Type': 'application/json' });
+                // res.send(answer);
+                playSong();
+                res.end(JSON.stringify(result));
+                
+            } catch (error) {
+                console.log("Error i play: " + error)    
+            }
         }
     })
        
@@ -441,16 +556,48 @@ app.get('/clearQue', function (req, res, next) {
  * @var queue - array holding all song links from queue database table  
  * @var dispatcher - refference to the music bots voice output
  *************************************************************************/
-function play() {
+
+//  hyperlink(queue[0].sang, queue[0].link, queue[0].sang)
+async function playSong() {
+    let stream
     if (queue.length != 0) {
-        dispatcher = botConnection.play(ytdl(queue[0].link, {filter: "audioonly"}));
-  
+        player.removeAllListeners()
+        console.log(queue[0].link)
+        
+
+        // stream = await play.stream(queue[0].link) // had without seek before, but seems the play.stream parameter mixed up the first and second argument??? 
+            stream = await play.stream(queue[0].link, {
+                discordPlayerCompatibility: true,
+            }) //adding seek removed error
+    
+        
+   
+        resource = createAudioResource(stream.stream, {
+            inputType: stream.type
+        })
+        
+        try {
+            client.user.setActivity("hei verden",{
+                type: "STREAMING",
+                url: queue[0].link
+            });
+        } catch (error) {
+            console.log("Error when setting discord activity status:" + error)
+        }
+        
+        
+        
+        console.log("9")
+        player.play(resource);
+        botConnection.subscribe(player);
+      
         queue.shift();
         wasTheLastSongSkipped = false;
-        dispatcher.on("finish", () =>{
+        player.on(AudioPlayerStatus.Idle, () =>{
         if(queue.length != 0){
             console.log("queue er ikke tom")
-            play()
+            playSong();
+            
         } else if(queue.length == 0) {
             console.log("queue er tom")
         }
@@ -460,7 +607,6 @@ function play() {
     console.log("queue er tom")
     }
 }
-
 
 /************************************************************************
  * Back-end receives request add the specified song to the queue.
@@ -601,15 +747,38 @@ app.get('/skipQue', function (req, res) {
         if (queue.length != 0) {
             if (wasTheLastSongSkipped == true) {
                 queue.shift();
-        } 
-        wasTheLastSongSkipped = true;
-        if (queue.length != 0) {
-            dispatcher = botConnection.play(ytdl(queue[0].link, {filter: "audioonly"}));
-            play();
-        }
+            } 
+            wasTheLastSongSkipped = true;
+            
+            
+            console.log("1");
+            if (queue.length != 0) {
+                var stream = play.stream(queue[0].link, {
+                    filter: "audioonly"
+                });
+                client.user.setActivity("hei verden",{
+                    type: "STREAMING",
+                    url: queue[0].link
+                });
+                console.log("2");
+                let resource = createAudioResource(stream);
+                
+                // console.log("3");
+                player.play(resource);
+                // console.log("4");
+                botConnection.subscribe(player);
+                // dispatcher = botConnection.play(ytdl(queue[0].link, {filter: "audioonly"}));
+                console.log("5");
+                playSong();
+            }
         // queue.shift();
     } else if (queue.length == 0) {
-        dispatcher.destroy();
+        try {
+            
+            dispatcher.destroy();
+        } catch (error) {
+            console.log("Could not destroy dispather: " + error)
+        }
     }
     var answer = JSON.stringify({
         result: "ok"
@@ -774,7 +943,7 @@ app.post('/orderUpp', function (req, res) {
 app.get('/stopQue', function (req, res) {
     console.log("app.get('/stopQue");
     queue = [];
-    dispatcher.destroy();
+    botConnection.destroy();
     var answer = JSON.stringify({
         result: "ok"
         })

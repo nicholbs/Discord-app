@@ -4,13 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "es-dev-server --app-index index.html --node-resolve --watch --open --port 80"
+    "start": "es-dev-server --app-index index.html --node-resolve --watch --open --port 8080"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@vaadin/router": "^1.7.2",
-    "es-dev-server": "^1.60.1",
+    "es-dev-server": "^1.60.2",
     "lit-element": "^2.4.0"
   }
 }
